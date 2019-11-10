@@ -1,7 +1,13 @@
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
-import Main from '~/pages/Main';
+import SignIn from '~/pages/SignIn';
+import SignUp from '~/pages/SignUp';
 
-const Routes = createAppContainer(createSwitchNavigator({ Main }));
+const AuthNavigator = createSwitchNavigator({
+  SignIn,
+  SignUp,
+});
+
+const Routes = createAppContainer(AuthNavigator);
 
 export default Routes;
