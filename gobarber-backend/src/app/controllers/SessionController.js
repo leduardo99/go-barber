@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import authConfig from '../../config/auth';
 
 import User from '../models/User';
+import File from '../models/File';
 
 class SessionController {
   async store(req, res) {
@@ -20,7 +21,12 @@ class SessionController {
 
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({
+      where: { email },
+      include: [
+        { model: File, as: 'avatar', attributes: ['id', 'path', 'url'] },
+      ],
+    });
 
     if (!user) res.status(401).json({ error: 'User not found.' });
 
@@ -28,7 +34,7 @@ class SessionController {
       return res.status(400).json('Password does not match.');
     }
 
-    const { id, name } = user;
+    const { id, name, avatar, provider } = user;
 
     return res.json({
       user: {
@@ -36,6 +42,8 @@ class SessionController {
         name,
         password,
         email,
+        avatar,
+        provider,
       },
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
