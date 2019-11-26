@@ -2,7 +2,7 @@ import { persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 
 import createStore from './createStore';
-import persistReducers from './persisReducers';
+import persistReducers from './persistReducers';
 
 import rootReducer from './modules/rootReducer';
 import rootSaga from './modules/rootSaga';
@@ -18,4 +18,4 @@ const persistor = persistStore(store);
 
 sagaMiddleware.run(rootSaga);
 
-export default { store, persistor };
+export { store, persistor };

@@ -1,5 +1,5 @@
-import { Alert } from 'react-native';
 import { takeLatest, call, put, all } from 'redux-saga/effects';
+import { Alert } from 'react-native';
 
 import api from '~/services/api';
 
@@ -21,15 +21,16 @@ export function* signIn({ payload }) {
         'Erro no login',
         'O usuário não pode ser prestador de serviços'
       );
+
       return;
     }
 
-    api.defaults.headers.Authorization = `Bearer ${token}`;
-
     yield put(signInSuccess(token, user));
 
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+
     // history.push('/dashboard');
-  } catch (err) {
+  } catch (error) {
     Alert.alert(
       'Falha na autenticação',
       'Houve um erro no login, verifique seus dados'
@@ -48,13 +49,14 @@ export function* signUp({ payload }) {
       password,
     });
 
+    Alert.alert('Sucesso', 'Cadastro realizado com sucesso');
+
     // history.push('/');
-  } catch (err) {
+  } catch (error) {
     Alert.alert(
       'Falha no cadastro',
       'Houve um erro no cadastro, verifique seus dados'
     );
-
     yield put(signFailure());
   }
 }
